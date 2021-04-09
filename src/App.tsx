@@ -5,10 +5,12 @@ import { ToastContainer } from 'react-toastify';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import 'react-toastify/dist/ReactToastify.css';
+import Chart from './components/Chart';
 // import Header from './components/Header';
 import Wrapper from './components/Wrapper';
 import Metrics from './Features/Metrics/Metrics';
 import DashBoard from './Features/DashBoard/DashBoard';
+
 // import NowWhat from './components/NowWhat';
 
 const store = createStore();
@@ -35,6 +37,7 @@ const App = () => (
         {/* <Header /> */}
         {/* <NowWhat /> */}
         <DashBoard />
+        <Chart />
         <ToastContainer />
       </Wrapper>
     </Provider>

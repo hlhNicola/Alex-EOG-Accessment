@@ -4,7 +4,7 @@ import React from 'react';
 import { Provider, createClient, useSubscription, defaultExchanges, subscriptionExchange } from 'urql';
 // import { IState } from '../../store';
 // import LinearProgress from '@material-ui/core/LinearProgress';
-import { devtoolsExchange } from '@urql/devtools';
+// import { devtoolsExchange } from '@urql/devtools';
 // import { createClient as createWSClient } from 'graphql-ws';
 import {SubscriptionClient} from 'subscriptions-transport-ws';
 
@@ -19,7 +19,7 @@ const subscriptionClient = new SubscriptionClient(
 const client = createClient({
 url: 'https://react.eogresources.com/graphql',
 exchanges: [
-    devtoolsExchange,
+    // devtoolsExchange,
     ...defaultExchanges,
     subscriptionExchange({
         forwardSubscription: operation => subscriptionClient.request(operation)
