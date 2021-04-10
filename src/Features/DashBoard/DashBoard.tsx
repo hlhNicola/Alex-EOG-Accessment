@@ -1,12 +1,13 @@
-import React from 'react';
-// import { useDispatch } from 'react-redux';
-// import { actions } from './reducer';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { actions } from './reducer';
 import { Provider, createClient, useSubscription, defaultExchanges, subscriptionExchange } from 'urql';
-// import { IState } from '../../store';
+import { IState } from '../../store';
 // import LinearProgress from '@material-ui/core/LinearProgress';
-// import { devtoolsExchange } from '@urql/devtools';
+import { devtoolsExchange } from '@urql/devtools';
 // import { createClient as createWSClient } from 'graphql-ws';
-import {SubscriptionClient} from 'subscriptions-transport-ws';
+import { SubscriptionClient } from 'subscriptions-transport-ws';
+import Chart from '../../components/Chart';
 
 
 const subscriptionClient = new SubscriptionClient(
@@ -19,7 +20,7 @@ const subscriptionClient = new SubscriptionClient(
 const client = createClient({
 url: 'https://react.eogresources.com/graphql',
 exchanges: [
-    // devtoolsExchange,
+    devtoolsExchange,
     ...defaultExchanges,
     subscriptionExchange({
         forwardSubscription: operation => subscriptionClient.request(operation)
@@ -33,12 +34,16 @@ const newMeasurement = `
             metric
             at
             value
-            unit
         }
     }
     
 `;
-
+const getOilTempData = (state: IState) => {
+    const oilTempData = state.dashboard.oilTempData;
+    return {
+      oilTempData,
+    };
+  };
 
 
 
@@ -54,16 +59,20 @@ export default () => {
   
     const [result] = useSubscription({ query: newMeasurement });
     const { fetching, data, error } = result;
-    if (!result.data) {
-        return <p>No new messages</p>;
-      }
-    console.log(data)
+    const dispatch = useDispatch()
+    const oilTempDataGraghData = useSelector(getOilTempData)
+    useEffect(() => {
+        if (data && data.newMeasurement && data.newMeasurement.metric) {
+            if (data.newMeasurement.metric === 'oilTemp') {
+            dispatch(actions.updateOilTempData(data.newMeasurement));
+            }
+        }
+    }, [dispatch, result, data]);
+      
     
     return(
         
-        <ul>
-            {data.newMeasurement.metric}= {data.newMeasurement.value} ,{data.newMeasurement.at}  
-        </ul>
+            <Chart metric={oilTempDataGraghData.oilTempData}/>
         
         )
 }

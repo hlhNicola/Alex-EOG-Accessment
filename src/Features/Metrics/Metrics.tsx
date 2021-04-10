@@ -13,14 +13,23 @@ const client = createClient({
 
 const query = `
 query {
-  getMetrics
+  getMetrics,
+  heartBeat, 
 }
 `;
 
+
 const getMetricsData = (state: IState) => {
-  const { getMetrics } = state.metric;
+  const { metrics } = state.metrics;
   return {
-    getMetrics
+    metrics
+  };
+};
+
+const getHeartBeatData = (state: IState) => {
+  const { heartBeat } = state.metrics;
+  return {
+    heartBeat
   };
 };
 
@@ -35,11 +44,16 @@ export default () => {
 const Metrics = () => {
   
   const dispatch = useDispatch();
-  const { getMetrics } = useSelector(getMetricsData);
+  const { metrics } = useSelector(getMetricsData);
 
+  const { heartBeat } = useSelector(getHeartBeatData);
+  const measurement = {
+    metricName: 'oilTemp'
+  };
   const [result] = useQuery({
     query
   });
+
   const { fetching, data, error } = result;
   useEffect(() => {
 
@@ -49,11 +63,12 @@ const Metrics = () => {
     }
 
     if (!data) return;
+    const { getMetrics, heartBeat } = data;
 
-    const { getMetrics } = data;
     dispatch(actions.metricDataRecevied(getMetrics));
+    dispatch(actions.metricDataRecevied(heartBeat));
   }, [dispatch, data, error]);
 
     if (fetching) return <LinearProgress />
-  return <CustomizedHook metrics={getMetrics}/>;
+  return <CustomizedHook metrics={metrics}/>;
 };

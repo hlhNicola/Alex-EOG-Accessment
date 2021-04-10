@@ -5,11 +5,6 @@ import CheckIcon from '@material-ui/icons/Check';
 import CloseIcon from '@material-ui/icons/Close';
 import styled from 'styled-components';
 
-const Label = styled('label')`s
-  padding: 0 0 4px;
-  line-height: 1.5;
-  display: block;
-`;
 
 const InputWrapper = styled('div')`
   width: 300px;
@@ -125,10 +120,9 @@ const Listbox = styled('ul')`
   }
 `;
 
-export default function CustomizedHook({metrics}: MetricsData) { // : string[]
+export default function CustomizedHook({metrics}: MetricsData) {
   const {
     getRootProps,
-    getInputLabelProps,
     getInputProps,
     getTagProps,
     getListboxProps,
@@ -150,7 +144,6 @@ export default function CustomizedHook({metrics}: MetricsData) { // : string[]
     <NoSsr>
       <div>
         <div {...getRootProps()}>
-          <Label {...getInputLabelProps()}>Customized hook</Label>
           <InputWrapper ref={setAnchorEl} className={focused ? 'focused' : ''}>
             {value.map((option: string, index: number) => (
               <Tag label={option} {...getTagProps({ index })} />

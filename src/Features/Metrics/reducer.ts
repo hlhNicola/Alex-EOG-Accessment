@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from 'redux-starter-kit';
 
 export type Metric = string[]
+export type HeartBeat = number
 
 
 export type ApiErrorAction = {
@@ -8,7 +9,9 @@ export type ApiErrorAction = {
 };
 
 const initialState = {
-  getMetrics: ['inital'] // string[]
+  metrics: new Array(),
+  heartBeat: 0,
+  oilTemp:[],
 };
 
 const slice = createSlice({
@@ -16,9 +19,13 @@ const slice = createSlice({
   initialState,
   reducers: {
     metricDataRecevied: (state, action: PayloadAction<Metric>) => {
-  
-      state.getMetrics = action.payload;
-     
+      state.metrics = action.payload;
+    },
+    heartBeatDataRecevied: (state, action: PayloadAction<HeartBeat>) => {
+      state.heartBeat = action.payload;
+    },
+    oilTempDataRecevied: (state, action: PayloadAction<any>) => {
+      state.oilTemp = action.payload;
     },
     metricApiErrorReceived: (state, action: PayloadAction<ApiErrorAction>) => state,
   },

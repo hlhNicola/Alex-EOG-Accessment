@@ -1,23 +1,51 @@
 import { createSlice, PayloadAction } from 'redux-starter-kit';
 
-export type Metric = string[]
 
+interface T {
+  oilTempData: any[]
+}
 
 export type ApiErrorAction = {
   error: string;
 };
 
-const initialState = {
-  getMetrics: ['inital'] // string[]
+const initialState: T = {
+  oilTempData:[],
+  // tubingPressu re: [],
+  // casingPressure = {
+  //   name: "casingPressure",
+  //   utc: true,
+  //   columns: ["time", "value", "unit"],
+  //   points: new Array()
+  // },
+  // waterTemp:{
+  //   name: "waterTemp",
+  //   utc: true,
+  //   columns: ["time", "value", "unit"],
+  //   points: new Array()
+  // },
+  // injValueOpen = {
+  //     name: "injValueOpen",
+  //     utc: true,
+  //     columns: ["time", "value", "unit"],
+  //     points: new Array()
+  // },
+  // flareTemp = {
+  //   name: "flareTemp",
+  //   utc: true,
+  //   columns: ["time", "value", "unit"],
+  //   points: new Array()
+  // }
 };
 
 const slice = createSlice({
-  name: 'metrics',
+  name: 'dashboard',
   initialState,
   reducers: {
-    metricDataRecevied: (state, action: PayloadAction<Metric>) => {
+    updateOilTempData: (state, action: PayloadAction<any>) => {
   
-      state.getMetrics = action.payload;
+      const newOilTemp:any[] = [...state.oilTempData, action.payload];
+      state.oilTempData = newOilTemp
      
     },
     metricApiErrorReceived: (state, action: PayloadAction<ApiErrorAction>) => state,
