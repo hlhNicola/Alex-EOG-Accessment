@@ -3,27 +3,19 @@ import { useDispatch, useSelector } from 'react-redux';
 import { actions } from './reducer';
 import { Provider, createClient, useQuery } from 'urql';
 import { IState } from '../../store';
+
 import CustomizedHook from '../../components/AutoComplete';
 import LinearProgress from '@material-ui/core/LinearProgress';
-
 
 const client = createClient({
   url: 'https://react.eogresources.com/graphql',
 });
 
 
+
 const query = `
-query ($input: [MeasurementQuery]){
+query {
   getMetrics
-  getMultipleMeasurements(input: $input) {
-    metric
-    measurements {
-      metric
-      at
-      value
-      unit
-    }
-  }
 }`
 
 
@@ -34,12 +26,7 @@ const getMetricsData = (state: IState) => {
   };
 };
 
-// const getHeartBeatData = (state: IState) => {
-//   const { heartBeat } = state.metrics;
-//   return {
-//     heartBeat
-//   };
-// };
+
 
 
 export default () => {
@@ -52,27 +39,27 @@ export default () => {
 
 const Metrics = () => {
  
-  let input = []
+  // let input = []
   const dispatch = useDispatch();
   const { metrics } = useSelector(getMetricsData);
   // const { heartBeat } = useSelector(getHeartBeatData);
-  const beforeTime = Date.now()
-  const afterTime = beforeTime - 30 * 60 * 1000
+  // const beforeTime = Date.now()
+  // const afterTime = beforeTime - 30 * 60 * 1000
   
-  input = metrics.map(item => {
-    return {
-      metricName: item,
-      after: afterTime,
-      before: beforeTime
-    }
-  })
+  // input = metrics.map(item => {
+  //   return {
+  //     metricName: item,
+  //     after: afterTime,
+  //     before: beforeTime
+  //   }
+  // })
   
   
   const [result] = useQuery({
     query,
-    variables: {
-      input,
-    },
+    // variables: {
+    //   input,
+    // },
   });
 
   
@@ -86,26 +73,26 @@ const Metrics = () => {
     }
 
     if (!data) return;
-    const { getMetrics, getMultipleMeasurements} = data;
-    const multiMeasurementsData = new Map()
+    const { getMetrics} = data;
+    // const multiMeasurementsData = new Map()
     
-    getMultipleMeasurements.map((items: any) => {
+    // getMultipleMeasurements.map((items: any) => {
       
-      metrics.forEach((metric: string) => {
-        if(items.metric === metric){
-          let itemPoints: any = []
-          items.measurements.forEach((measurement: any) => {
-            itemPoints.push([measurement.at, measurement.value, measurement.unit])
-          })
-          multiMeasurementsData.set(metric, itemPoints)
-        }
-      })
-    })
+    //   metrics.forEach((metric: string) => {
+    //     if(items.metric === metric){
+    //       let itemPoints: any = []
+    //       items.measurements.forEach((measurement: any) => {
+    //         itemPoints.push([measurement.at, measurement.value, measurement.unit])
+    //       })
+    //       multiMeasurementsData.set(metric, itemPoints)
+    //     }
+    //   })
+    // })
     
     
     dispatch(actions.metricDataRecevied(getMetrics));
     // dispatch(actions.heartBeatDataRecevied(heartBeat));
-    dispatch(actions.measurementsDataRecevied(multiMeasurementsData))
+    // dispatch(actions.measurementsDataRecevied(multiMeasurementsData))
   }, [dispatch, data, error]);
     if (fetching) return <LinearProgress />
   return <CustomizedHook metrics={metrics}/>;
