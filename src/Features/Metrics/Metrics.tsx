@@ -15,7 +15,6 @@ const client = createClient({
 const query = `
 query ($input: [MeasurementQuery]){
   getMetrics
-  heartBeat
   getMultipleMeasurements(input: $input) {
     metric
     measurements {
@@ -35,19 +34,13 @@ const getMetricsData = (state: IState) => {
   };
 };
 
-const getHeartBeatData = (state: IState) => {
-  const { heartBeat } = state.metrics;
-  return {
-    heartBeat
-  };
-};
+// const getHeartBeatData = (state: IState) => {
+//   const { heartBeat } = state.metrics;
+//   return {
+//     heartBeat
+//   };
+// };
 
-const getMultipleMeasurementsData = (state: IState) => {
-  const { multiMeasurements } = state.metrics;
-  return {
-    multiMeasurements
-  };
-};
 
 export default () => {
   return (
@@ -62,14 +55,18 @@ const Metrics = () => {
   let input = []
   const dispatch = useDispatch();
   const { metrics } = useSelector(getMetricsData);
+  // const { heartBeat } = useSelector(getHeartBeatData);
+  const beforeTime = Date.now()
+  const afterTime = beforeTime - 30 * 60 * 1000
+  
   input = metrics.map(item => {
     return {
-      metricName: item
+      metricName: item,
+      after: afterTime,
+      before: beforeTime
     }
   })
-
-
-  const { heartBeat } = useSelector(getHeartBeatData);
+  
   
   const [result] = useQuery({
     query,
@@ -89,11 +86,26 @@ const Metrics = () => {
     }
 
     if (!data) return;
-    const { getMetrics, heartBeat, multiMeasurements} = data;
-    console.log(data)
+    const { getMetrics, getMultipleMeasurements} = data;
+    const multiMeasurementsData = new Map()
+    
+    getMultipleMeasurements.map((items: any) => {
+      
+      metrics.forEach((metric: string) => {
+        if(items.metric === metric){
+          let itemPoints: any = []
+          items.measurements.forEach((measurement: any) => {
+            itemPoints.push([measurement.at, measurement.value, measurement.unit])
+          })
+          multiMeasurementsData.set(metric, itemPoints)
+        }
+      })
+    })
+    
+    
     dispatch(actions.metricDataRecevied(getMetrics));
-    dispatch(actions.heartBeatDataRecevied(heartBeat));
-    dispatch(actions.getMultipleMeasurementsData(multiMeasurements));
+    // dispatch(actions.heartBeatDataRecevied(heartBeat));
+    dispatch(actions.measurementsDataRecevied(multiMeasurementsData))
   }, [dispatch, data, error]);
     if (fetching) return <LinearProgress />
   return <CustomizedHook metrics={metrics}/>;

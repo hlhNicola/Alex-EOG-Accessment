@@ -8,7 +8,7 @@ import 'react-toastify/dist/ReactToastify.css';
 // import Header from './components/Header';
 import Wrapper from './components/Wrapper';
 import Metrics from './Features/Metrics/Metrics';
-import DashBoard from './Features/DashBoard/DashBoard';
+// import DashBoard from './Features/DashBoard/DashBoard';
 
 // import NowWhat from './components/NowWhat';
 
@@ -35,7 +35,7 @@ const App = () => (
         <Metrics />
         {/* <Header /> */}
         {/* <NowWhat /> */}
-        <DashBoard />
+        {/* <DashBoard /> */}
         <ToastContainer />
       </Wrapper>
     </Provider>

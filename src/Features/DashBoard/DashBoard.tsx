@@ -9,23 +9,23 @@ import { SubscriptionClient } from 'subscriptions-transport-ws';
 import Chart from '../../components/Chart';
 
 
-const subscriptionClient = new SubscriptionClient(
-    "ws://react.eogresources.com/graphql",
-    {
-        reconnect: true
-    }
-)
+// const subscriptionClient = new SubscriptionClient(
+//     "ws://react.eogresources.com/graphql",
+//     {
+//         reconnect: true
+//     }
+// )
 
-const client = createClient({
-url: 'https://react.eogresources.com/graphql',
-exchanges: [
-    devtoolsExchange,
-    ...defaultExchanges,
-    subscriptionExchange({
-        forwardSubscription: operation => subscriptionClient.request(operation)
-    })
-]
-});
+// const client = createClient({
+// url: 'https://react.eogresources.com/graphql',
+// exchanges: [
+//     devtoolsExchange,
+//     ...defaultExchanges,
+//     subscriptionExchange({
+//         forwardSubscription: operation => subscriptionClient.request(operation)
+//     })
+// ]
+// });
 
 const newMeasurement = `
     subscription {
@@ -38,41 +38,41 @@ const newMeasurement = `
     }
     
 `;
-const getOilTempData = (state: IState) => {
-    const oilTempData = state.dashboard.oilTempData;
-    return {
-      oilTempData,
-    };
-  };
+// const getOilTempData = (state: IState) => {
+//     const oilTempData = state.dashboard.oilTempData;
+//     return {
+//       oilTempData,
+//     };
+//   };
 
 
 
-export default () => {
-    return (
-      <Provider value={client}>
-        <DashBoard />
-      </Provider>
-    );
-  };
+// export default () => {
+//     return (
+//       <Provider value={client}>
+//         <DashBoard />
+//       </Provider>
+//     );
+//   };
 
   const DashBoard = () => {
   
-    const [result] = useSubscription({ query: newMeasurement });
-    const { fetching, data, error } = result;
-    const dispatch = useDispatch()
-    const oilTempDataGraghData = useSelector(getOilTempData)
-    useEffect(() => {
-        if (data && data.newMeasurement && data.newMeasurement.metric) {
-            if (data.newMeasurement.metric === 'oilTemp') {
-            dispatch(actions.updateOilTempData(data.newMeasurement));
-            }
-        }
-    }, [dispatch, result, data]);
+    // const [result] = useSubscription({ query: newMeasurement });
+    // const { fetching, data, error } = result;
+    // const dispatch = useDispatch()
+    // const oilTempDataGraghData = useSelector(getOilTempData)
+    // useEffect(() => {
+    //     if (data && data.newMeasurement && data.newMeasurement.metric) {
+    //         if (data.newMeasurement.metric === 'oilTemp') {
+    //         dispatch(actions.updateOilTempData(data.newMeasurement));
+    //         }
+    //     }
+    // }, [dispatch, result, data]);
       
     
     return(
-        
-            <Chart metric={oilTempDataGraghData.oilTempData}/>
+        <div />
+            // <Chart metric={oilTempDataGraghData.oilTempData}/>
         
         )
 }
