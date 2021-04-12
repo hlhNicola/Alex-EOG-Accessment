@@ -11,7 +11,7 @@ export type ApiErrorAction = {
 const initialState = {
   metrics: new Array(),
   heartBeat: 0,
-  oilTemp:[],
+  multiMeasurements: new Array()
 };
 
 const slice = createSlice({
@@ -24,8 +24,8 @@ const slice = createSlice({
     heartBeatDataRecevied: (state, action: PayloadAction<HeartBeat>) => {
       state.heartBeat = action.payload;
     },
-    oilTempDataRecevied: (state, action: PayloadAction<any>) => {
-      state.oilTemp = action.payload;
+    getMultipleMeasurementsData: (state, action: PayloadAction<any>) => {
+      state.multiMeasurements = action.payload;
     },
     metricApiErrorReceived: (state, action: PayloadAction<ApiErrorAction>) => state,
   },

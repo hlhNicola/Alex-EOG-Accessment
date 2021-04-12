@@ -11,12 +11,21 @@ const client = createClient({
   url: 'https://react.eogresources.com/graphql',
 });
 
+
 const query = `
-query {
-  getMetrics,
-  heartBeat, 
-}
-`;
+query ($input: [MeasurementQuery]){
+  getMetrics
+  heartBeat
+  getMultipleMeasurements(input: $input) {
+    metric
+    measurements {
+      metric
+      at
+      value
+      unit
+    }
+  }
+}`
 
 
 const getMetricsData = (state: IState) => {
@@ -33,6 +42,13 @@ const getHeartBeatData = (state: IState) => {
   };
 };
 
+const getMultipleMeasurementsData = (state: IState) => {
+  const { multiMeasurements } = state.metrics;
+  return {
+    multiMeasurements
+  };
+};
+
 export default () => {
   return (
     <Provider value={client}>
@@ -42,17 +58,27 @@ export default () => {
 };
 
 const Metrics = () => {
-  
+ 
+  let input = []
   const dispatch = useDispatch();
   const { metrics } = useSelector(getMetricsData);
+  input = metrics.map(item => {
+    return {
+      metricName: item
+    }
+  })
+
 
   const { heartBeat } = useSelector(getHeartBeatData);
-  const measurement = {
-    metricName: 'oilTemp'
-  };
+  
   const [result] = useQuery({
-    query
+    query,
+    variables: {
+      input,
+    },
   });
+
+  
 
   const { fetching, data, error } = result;
   useEffect(() => {
@@ -63,12 +89,12 @@ const Metrics = () => {
     }
 
     if (!data) return;
-    const { getMetrics, heartBeat } = data;
-
+    const { getMetrics, heartBeat, multiMeasurements} = data;
+    console.log(data)
     dispatch(actions.metricDataRecevied(getMetrics));
-    dispatch(actions.metricDataRecevied(heartBeat));
+    dispatch(actions.heartBeatDataRecevied(heartBeat));
+    dispatch(actions.getMultipleMeasurementsData(multiMeasurements));
   }, [dispatch, data, error]);
-
     if (fetching) return <LinearProgress />
   return <CustomizedHook metrics={metrics}/>;
 };

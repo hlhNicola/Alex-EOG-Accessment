@@ -5,7 +5,6 @@ import { Provider, createClient, useSubscription, defaultExchanges, subscription
 import { IState } from '../../store';
 // import LinearProgress from '@material-ui/core/LinearProgress';
 import { devtoolsExchange } from '@urql/devtools';
-// import { createClient as createWSClient } from 'graphql-ws';
 import { SubscriptionClient } from 'subscriptions-transport-ws';
 import Chart from '../../components/Chart';
 
@@ -34,6 +33,7 @@ const newMeasurement = `
             metric
             at
             value
+            unit
         }
     }
     
