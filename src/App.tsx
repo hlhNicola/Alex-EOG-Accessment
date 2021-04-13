@@ -9,6 +9,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import Wrapper from './components/Wrapper';
 import Metrics from './Features/Metrics/Metrics';
 import Paper from './components/Paper';
+import Chart from './components/Chart';
 
 // import NowWhat from './components/NowWhat';
 
@@ -35,6 +36,7 @@ const App = () => (
         <div ></div>
         <Paper/>
         <Metrics />
+        <Chart />
         {/* <Header /> */}
         {/* <NowWhat /> */}
         <ToastContainer />

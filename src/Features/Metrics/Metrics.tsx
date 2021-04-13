@@ -4,6 +4,7 @@ import { actions } from './reducer';
 import { useQuery, useSubscription } from 'urql';
 import { IState } from '../../store';
 import CustomizedHook from '../../components/AutoComplete';
+import Chart from '../../components/Chart';
 
 const beforeTime = Date.now()
 const afterTime = beforeTime - 30 * 60 * 1000
@@ -39,7 +40,7 @@ subscription {
 
 `
 
-const getSelectedMetricsData = (state: IState) => {
+export const getSelectedMetricsData = (state: IState) => {
   const { selectedMetrics } = state.metrics;
   return {
     selectedMetrics
@@ -86,8 +87,7 @@ const GetMetricList = () => {
 const GetMultipleMeasurements = () => {
 
   const { selectedMetrics } = useSelector(getSelectedMetricsData);
-  
-  let input = selectedMetrics.map(item => {
+  let input = selectedMetrics.map((item: any) => {
     return {
       metricName: item,
       after: afterTime,
@@ -121,7 +121,6 @@ const GetMultipleMeasurements = () => {
 };
 
 const GetNewMeasurements = () => {
-  console.log('1')
   const [result] = useSubscription({ query: getNewMeasurement, variables:{} });
   const { fetching, data, error } = result;
   const dispatch = useDispatch()
@@ -134,11 +133,16 @@ const GetNewMeasurements = () => {
 }
 
 const Metrics = () => {
+
  
   GetMetricList()
   GetMultipleMeasurements();
   GetNewMeasurements();
   const { metrics } = useSelector(getMetricsData);
-  
-  return <CustomizedHook metrics={metrics}/>;
+  return (<div>
+    <CustomizedHook metrics={metrics}/>
+    <div style={{ margin: '30px' }}>
+      <Chart/>
+    </div>
+  </div>);
 };
