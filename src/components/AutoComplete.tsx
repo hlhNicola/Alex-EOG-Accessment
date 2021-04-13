@@ -4,6 +4,8 @@ import NoSsr from '@material-ui/core/NoSsr';
 import CheckIcon from '@material-ui/icons/Check';
 import CloseIcon from '@material-ui/icons/Close';
 import styled from 'styled-components';
+import { useDispatch } from 'react-redux';
+import { actions } from '../Features/Metrics/reducer';
 
 
 const InputWrapper = styled('div')`
@@ -14,6 +16,7 @@ const InputWrapper = styled('div')`
   padding: 1px;
   display: flex;
   flex-wrap: wrap;
+  justify-content: end;
 
   &:hover {
     border-color: #40a9ff;
@@ -120,7 +123,8 @@ const Listbox = styled('ul')`
   }
 `;
 
-export default function CustomizedHook({metrics}: MetricsData) {
+export default function CustomizedHook({metrics}: any) {
+  const dispatch = useDispatch();
   const {
     getRootProps,
     getInputProps,
@@ -137,8 +141,12 @@ export default function CustomizedHook({metrics}: MetricsData) {
     multiple: true,
     options: metrics,
     getOptionLabel: (option: string) => option,
+    onChange: (event: object, value: string[], reason: string) => {
+      dispatch(actions.selectedMetricDataRecevied(value))
+    }
   });
-  
+ 
+ 
 
   return (
     <NoSsr>

@@ -8,80 +8,46 @@ export type ApiErrorAction = {
   error: string;
 };
 
-const initialState = {
-  metrics: new Array(),
-  oilTemp:{
-    name: "oilTempData",
-    utc: true,
-    columns: ["time", "value", "unit"],
-    points: new Array()
-  },
-  tubingPressure: {
-    name: "tubingPressure",
-    utc: true,
-    columns: ["time", "value", "unit"],
-    points: new Array()
-  },
-  casingPressure: {
-    name: "casingPressure",
-    utc: true,
-    columns: ["time", "value", "unit"],
-    points: new Array()
-  },
-  waterTemp:{
-    name: "waterTemp",
-    utc: true,
-    columns: ["time", "value", "unit"],
-    points: new Array()
-  },
-  injValueOpen: {
-      name: "injValueOpen",
-      utc: true,
-      columns: ["time", "value", "unit"],
-      points: new Array()
-  },
-  flareTemp: {
-    name: "flareTemp",
-    utc: true,
-    columns: ["time", "value", "unit"],
-    points: new Array()
-  }
+interface T  {
+  metrics: string[],
+  selectedMetrics: string[],
+  mutipleMeasurements: any[]
+}
+
+const initialState: T = {
+  metrics: [],
+  selectedMetrics: [],
+  mutipleMeasurements: []
 };
 
 const slice = createSlice({
   name: 'metrics',
   initialState,
   reducers: {
-    metricDataRecevied: (state, action: PayloadAction<Metric>) => {
+    metricDataRecevied: (state, action: PayloadAction<any>) => {
       state.metrics = action.payload;
     },
-    // heartBeatDataRecevied: (state, action: PayloadAction<HeartBeat>) => {
-    //   state.heartBeat = action.payload;
-    // },
-    measurementsDataRecevied: (state, action: PayloadAction<any>) => {
-      state.oilTemp.points = action.payload.get("oilTemp")
-      state.tubingPressure.points = action.payload.get("tubingPressure")
-      state.casingPressure.points = action.payload.get("casingPressure")
-      state.waterTemp.points = action.payload.get("waterTemp")
-      state.injValueOpen.points = action.payload.get("injValueOpen")
-      state.flareTemp.points = action.payload.get("flareTemp")
+    selectedMetricDataRecevied: (state, action: PayloadAction<any>) => {
+      state.selectedMetrics = action.payload;
     },
-    tubingPressureDataRecevied: (state, action: PayloadAction<any>) => {
-      state.tubingPressure.points = action.payload;
+    multipleDataRecevied: (state, action: PayloadAction<any>) => {
+      state.mutipleMeasurements = action.payload;
     },
-    // waterTempDataRecevied: (state, action: PayloadAction<any>) => {
-    //   state.waterTemp.points = action.payload;
-    // },
-    // injValueOpenDataRecevied: (state, action: PayloadAction<any>) => {
-    //   state.injValueOpen.points = action.payload;
-    // },
-    // casingPressureDataRecevied: (state, action: PayloadAction<any>) => {
-    //   state.casingPressure.points = action.payload;
-    // },
-    // flareTempDataRecevied: (state, action: PayloadAction<any>) => {
-    //   state.flareTemp.points = action.payload;
-    // },
+    newMeasurementDataRecevied: (state, action: PayloadAction<any>) => {
+      if (state.mutipleMeasurements.length > 0) {
+        for (let i = 0; i < Object.keys(state.mutipleMeasurements).length; i++) {
+          if ( state.mutipleMeasurements[i].metric === action.payload.metric) {
+            state.mutipleMeasurements[i].measurements.push(action.payload);
+            state.mutipleMeasurements[i].measurements.shift()
+          }
+        }
+      }
+    },
+ 
     metricApiErrorReceived: (state, action: PayloadAction<ApiErrorAction>) => state,
+    selectedMetricApiErrorReceived: (state, action: PayloadAction<ApiErrorAction>) => state,
+    multipleDataApiErrorReceived: (state, action: PayloadAction<ApiErrorAction>) => state,
+    newMeasurementApiErrorReceived: (state, action: PayloadAction<ApiErrorAction>) => state,
   },
 });
 

@@ -1,4 +1,5 @@
-import React, { useMemo } from "react";
+import React from "react";
+import _ from "underscore";
 import {
   ResponsiveContainer,
   LineChart,
@@ -10,11 +11,12 @@ import {
 } from "recharts";
 
 
-const Chart = ({metric}: any) => {
+
+const Chart = () => {
  
     return (
       <ResponsiveContainer width={700} height="80%">
-      <LineChart width={730} height={250} data={metric}
+      <LineChart width={730} height={250} data={[]}
         margin={{ top: 50, right: 30, left: 20, bottom: 5 }}>
         <XAxis dataKey="at" />
         <YAxis/>
