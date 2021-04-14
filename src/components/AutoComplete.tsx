@@ -174,7 +174,4 @@ export default function CustomizedHook({metrics}: any) {
   );
 }
 
-type MetricsData = {
-  metrics : string[]
-}
 

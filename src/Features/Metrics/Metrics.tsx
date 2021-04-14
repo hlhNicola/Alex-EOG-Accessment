@@ -4,7 +4,8 @@ import { actions } from './reducer';
 import { useQuery, useSubscription } from 'urql';
 import { IState } from '../../store';
 import CustomizedHook from '../../components/AutoComplete';
-import Chart from '../../components/Chart';
+import MetricCard from '../../components/MetricCard';
+import getLastData from './getLastData';
 
 const beforeTime = Date.now()
 const afterTime = beforeTime - 30 * 60 * 1000
@@ -51,6 +52,13 @@ const getMetricsData = (state: IState) => {
   const { metrics } = state.metrics;
   return {
     metrics
+  };
+};
+
+const getMultipleMeasurements = (state: IState) => {
+  const { mutipleMeasurements } = state.metrics;
+  return {
+    mutipleMeasurements
   };
 };
 
@@ -139,10 +147,20 @@ const Metrics = () => {
   GetMultipleMeasurements();
   GetNewMeasurements();
   const { metrics } = useSelector(getMetricsData);
-  return (<div>
-    <CustomizedHook metrics={metrics}/>
-    <div style={{ margin: '30px' }}>
-      <Chart/>
+  const { mutipleMeasurements } = useSelector(getMultipleMeasurements);
+  const { selectedMetrics } = useSelector(getSelectedMetricsData);
+  let latestData = getLastData(mutipleMeasurements, selectedMetrics)
+  const MetricCards = latestData.map((data: string[]) => {
+    return <MetricCard data={ data }/>
+  })
+
+  return (
+  <div style={{padding: "2%"}}>
+    <div style={{display: "flex"}}>
+      <div style={{flex: 3, display: 'flex',  flexWrap: "wrap"}}>
+        { MetricCards }
+      </div>
+      <CustomizedHook metrics={metrics} style={{flex: 2}}/>
     </div>
-  </div>);
+  </div>)
 };

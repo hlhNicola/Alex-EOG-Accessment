@@ -5,7 +5,7 @@ export default function measurementDataToChartFormat(getMultipleMeasurements){
     }
     let metricLength = data[0].measurements.length;
     let formatedData = [];
-  
+    
     for (let index = 0; index < metricLength; index++) {
       let obj = {};
       for (let j = 0; j < data.length; j++) {
