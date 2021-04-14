@@ -56,9 +56,9 @@ const getMetricsData = (state: IState) => {
 };
 
 const getMultipleMeasurements = (state: IState) => {
-  const { mutipleMeasurements } = state.metrics;
+  const { multipleMeasurements } = state.metrics;
   return {
-    mutipleMeasurements
+    multipleMeasurements
   };
 };
 
@@ -146,9 +146,9 @@ const Metrics = () => {
   GetMultipleMeasurements();
   GetNewMeasurements();
   const { metrics } = useSelector(getMetricsData);
-  const { mutipleMeasurements } = useSelector(getMultipleMeasurements);
+  const { multipleMeasurements } = useSelector(getMultipleMeasurements);
   const { selectedMetrics } = useSelector(getSelectedMetricsData);
-  let latestData = getLastData(mutipleMeasurements, selectedMetrics)
+  let latestData = getLastData(multipleMeasurements, selectedMetrics)
   const MetricCards = latestData.map((data: string[]) => {
     return <MetricCard key={data[0]} data={ data }/>
   })

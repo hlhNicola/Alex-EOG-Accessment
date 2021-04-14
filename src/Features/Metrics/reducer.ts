@@ -1,46 +1,55 @@
 import { createSlice, PayloadAction } from 'redux-starter-kit';
 
-export type Metric = string[]
-export type HeartBeat = number
 
 
 export type ApiErrorAction = {
   error: string;
 };
 
-interface T  {
+interface Measurement {
+  metric: string,
+  at: number,
+  value: number,
+  unit: string
+}
+
+interface MultipleMeasurement {
+  metric: string,
+  measurements: Measurement[]
+}
+
+interface MetricState {
   metrics: string[],
   selectedMetrics: string[],
-  mutipleMeasurements: any[]
+  multipleMeasurements: MultipleMeasurement[]
 }
 
 
-
-const initialState: T = {
+const initialState: MetricState = {
   metrics: [],
   selectedMetrics: [],
-  mutipleMeasurements: []
+  multipleMeasurements: []
 };
 
 const slice = createSlice({
   name: 'metrics',
   initialState,
   reducers: {
-    metricDataRecevied: (state, action: PayloadAction<any>) => {
+    metricDataRecevied: (state, action: PayloadAction<string[]>) => {
       state.metrics = action.payload;
     },
-    selectedMetricDataRecevied: (state, action: PayloadAction<any>) => {
+    selectedMetricDataRecevied: (state, action: PayloadAction<string[]>) => {
       state.selectedMetrics = action.payload;
     },
-    multipleDataRecevied: (state, action: PayloadAction<any>) => {
-      state.mutipleMeasurements = action.payload;
+    multipleDataRecevied: (state, action: PayloadAction<MultipleMeasurement[]>) => {
+      state.multipleMeasurements = action.payload;
     },
-    newMeasurementDataRecevied: (state, action: PayloadAction<any>) => {
-      if (state.mutipleMeasurements.length > 0) {
-        for (let i = 0; i < Object.keys(state.mutipleMeasurements).length; i++) {
-          if ( state.mutipleMeasurements[i].metric === action.payload.metric) {
-            state.mutipleMeasurements[i].measurements.push(action.payload);
-            state.mutipleMeasurements[i].measurements.shift()
+    newMeasurementDataRecevied: (state, action: PayloadAction<Measurement>) => {
+      if (state.multipleMeasurements.length > 0) {
+        for (let i = 0; i < Object.keys(state.multipleMeasurements).length; i++) {
+          if ( state.multipleMeasurements[i].metric === action.payload.metric) {
+            state.multipleMeasurements[i].measurements.push(action.payload);
+            state.multipleMeasurements[i].measurements.shift()
           }
         }
       }

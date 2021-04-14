@@ -13,7 +13,7 @@ import moment from 'moment';
 import { IState } from '../store';
 import { getSelectedMetricsData } from '../Features/Metrics/Metrics';
 import measurementDataToChartFormat from '../Utilities/formatData';
-import CircularProgress  from '@material-ui/core/CircularProgress';
+import LinearProgress  from '@material-ui/core/LinearProgress';
 
 
 const toolTipWrapperStyle = {
@@ -43,29 +43,29 @@ const toolTipItemStyle = {
   marginTop: '-10px'
 };
 
-function formatXAxis(tickItem: any) {
+function formatXAxis(tickItem: string) {
   tickItem = moment(parseInt(tickItem)).format("LT");
   return tickItem;
 }
 
 const getMultipleMeasurements = (state: IState) => {
-  const { mutipleMeasurements } = state.metrics;
+  const { multipleMeasurements } = state.metrics;
   return {
-    mutipleMeasurements
+    multipleMeasurements
   };
 };
 
 export default function Chart() {
   const { selectedMetrics } = useSelector(getSelectedMetricsData)
-  const { mutipleMeasurements } = useSelector(getMultipleMeasurements);
+  const { multipleMeasurements } = useSelector(getMultipleMeasurements);
   const labelFormat = (e: number) => {
     return moment(e).format("lll")
   };
 
-  let formatedData:any = []
-  if (mutipleMeasurements.length !== 0) {
+  let formatedData: any[] = []
+  if (multipleMeasurements.length !== 0) {
     formatedData = measurementDataToChartFormat(
-      mutipleMeasurements
+      multipleMeasurements
     );
   }
 
@@ -73,7 +73,7 @@ export default function Chart() {
     return null
   }
   if (formatedData.length === 0) {
-    return <CircularProgress  />;
+    return <LinearProgress  />;
   }
 
   return (
