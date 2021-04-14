@@ -12,8 +12,8 @@ import {
 import moment from 'moment';
 import { IState } from '../store';
 import { getSelectedMetricsData } from '../Features/Metrics/Metrics';
-import measurementDataToChartFormat from '../Features/Metrics/formatData';
-import CircularProgress  from '@material-ui/core/LinearProgress';
+import measurementDataToChartFormat from '../Utilities/formatData';
+import CircularProgress  from '@material-ui/core/CircularProgress';
 
 
 const toolTipWrapperStyle = {

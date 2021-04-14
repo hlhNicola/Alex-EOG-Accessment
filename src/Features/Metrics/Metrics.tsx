@@ -5,7 +5,7 @@ import { useQuery, useSubscription } from 'urql';
 import { IState } from '../../store';
 import CustomizedHook from '../../components/AutoComplete';
 import MetricCard from '../../components/MetricCard';
-import getLastData from './getLastData';
+import getLastData from '../../Utilities/getLastData';
 
 const beforeTime = Date.now()
 const afterTime = beforeTime - 30 * 60 * 1000
@@ -95,7 +95,7 @@ const GetMetricList = () => {
 const GetMultipleMeasurements = () => {
 
   const { selectedMetrics } = useSelector(getSelectedMetricsData);
-  let input = selectedMetrics.map((item: any) => {
+  let input = selectedMetrics.map((item: string) => {
     return {
       metricName: item,
       after: afterTime,
@@ -142,7 +142,6 @@ const GetNewMeasurements = () => {
 
 const Metrics = () => {
 
- 
   GetMetricList()
   GetMultipleMeasurements();
   GetNewMeasurements();
@@ -151,7 +150,7 @@ const Metrics = () => {
   const { selectedMetrics } = useSelector(getSelectedMetricsData);
   let latestData = getLastData(mutipleMeasurements, selectedMetrics)
   const MetricCards = latestData.map((data: string[]) => {
-    return <MetricCard data={ data }/>
+    return <MetricCard key={data[0]} data={ data }/>
   })
 
   return (
