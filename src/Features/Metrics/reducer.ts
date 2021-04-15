@@ -1,24 +1,22 @@
 import { createSlice, PayloadAction } from 'redux-starter-kit';
 
-
-
 export type ApiErrorAction = {
   error: string;
 };
 
-interface Measurement {
+export interface Measurement {
   metric: string,
   at: number,
   value: number,
   unit: string
 }
 
-interface MultipleMeasurement {
+export interface MultipleMeasurement {
   metric: string,
   measurements: Measurement[]
 }
 
-interface MetricState {
+export interface MetricState {
   metrics: string[],
   selectedMetrics: string[],
   multipleMeasurements: MultipleMeasurement[]

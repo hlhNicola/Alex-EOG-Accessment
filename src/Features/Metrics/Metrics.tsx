@@ -5,7 +5,7 @@ import { useQuery, useSubscription } from 'urql';
 import { IState } from '../../store';
 import CustomizedHook from '../../components/AutoComplete';
 import MetricCard from '../../components/MetricCard';
-import getLastData from '../../Utilities/getLastData';
+import getLastData from '../../utilities/getLastData';
 
 const beforeTime = Date.now()
 const afterTime = beforeTime - 30 * 60 * 1000

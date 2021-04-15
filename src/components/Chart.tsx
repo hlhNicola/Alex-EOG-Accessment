@@ -12,7 +12,7 @@ import {
 import moment from 'moment';
 import { IState } from '../store';
 import { getSelectedMetricsData } from '../Features/Metrics/Metrics';
-import measurementDataToChartFormat from '../Utilities/formatData';
+import measurementDataToChartFormat from '../utilities/formatData';
 import LinearProgress  from '@material-ui/core/LinearProgress';
 
 
