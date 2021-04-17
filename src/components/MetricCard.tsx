@@ -13,9 +13,9 @@ const useStyles = makeStyles({
   },
 });
 
-export default function MetricCard( {data}: any) {
-  const classes = useStyles();
 
+export default function MetricCard( { data }: any ) {
+  const classes = useStyles();
   return (
     <Card className={classes.root}>
       <CardContent>

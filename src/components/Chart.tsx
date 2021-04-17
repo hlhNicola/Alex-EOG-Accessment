@@ -77,10 +77,8 @@ export default function Chart() {
   }
 
   return (
-    <ResponsiveContainer width="100%" height="80%">
+    <ResponsiveContainer width="95%" height="90%">
     <LineChart 
-      width={730} 
-      height={350} 
       data={ formatedData }
       margin={{ top: 50, right: 30, left: 20, bottom: 5 }}
       >
@@ -104,11 +102,11 @@ export default function Chart() {
       {selectedMetrics
           ? selectedMetrics.map((metric:string, index: number) => {
             let color = new Map()
-            color.set(0, 'red')
+            color.set(0, '#A80100')
             color.set(1, 'blue')
             color.set(2, 'green')
             color.set(3, 'purple')
-            color.set(4, 'yellow')
+            color.set(4, '#F76300')
             color.set(5, 'black')
               return (
                 <Line

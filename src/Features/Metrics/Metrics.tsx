@@ -134,9 +134,18 @@ const GetNewMeasurements = () => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    if (data && data.newMeasurement && data.newMeasurement.metric) {
-      dispatch(actions.newMeasurementDataRecevied(data.newMeasurement));
-  }
+    if (error) {
+      dispatch(actions.multipleDataApiErrorReceived({ error: error.message }));
+      return;
+    }
+    if (!data) {
+      return;
+    }
+    if (fetching) {
+      return;
+    }
+   
+    dispatch(actions.newMeasurementDataRecevied(data.newMeasurement));
   }, [dispatch, data, error, fetching]);
 }
 
