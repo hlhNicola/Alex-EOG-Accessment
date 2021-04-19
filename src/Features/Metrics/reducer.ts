@@ -1,27 +1,9 @@
 import { createSlice, PayloadAction } from 'redux-starter-kit';
+import { Measurement, MultipleMeasurement, MetricState } from './model';
 
 export type ApiErrorAction = {
   error: string;
 };
-
-export interface Measurement {
-  metric: string,
-  at: number,
-  value: number,
-  unit: string
-}
-
-export interface MultipleMeasurement {
-  metric: string,
-  measurements: Measurement[]
-}
-
-export interface MetricState {
-  metrics: string[],
-  selectedMetrics: string[],
-  multipleMeasurements: MultipleMeasurement[]
-}
-
 
 const initialState: MetricState = {
   metrics: [],
@@ -54,9 +36,6 @@ const slice = createSlice({
     },
  
     metricApiErrorReceived: (state, action: PayloadAction<ApiErrorAction>) => state,
-    selectedMetricApiErrorReceived: (state, action: PayloadAction<ApiErrorAction>) => state,
-    multipleDataApiErrorReceived: (state, action: PayloadAction<ApiErrorAction>) => state,
-    newMeasurementApiErrorReceived: (state, action: PayloadAction<ApiErrorAction>) => state,
   },
 });
 

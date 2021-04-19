@@ -1,4 +1,4 @@
-import { MultipleMeasurement } from '../Features/Metrics/reducer'
+import { MultipleMeasurement } from '../Features/Metrics/model'
 
 export default function measurementDataToChartFormat(getMultipleMeasurements: MultipleMeasurement[]){
     let data = getMultipleMeasurements;
@@ -12,7 +12,7 @@ export default function measurementDataToChartFormat(getMultipleMeasurements: Mu
       let obj:{[k:string]: number} = {};
       data.forEach((multipleMeasurement: MultipleMeasurement) => {
         obj[multipleMeasurement.measurements[index].metric] = multipleMeasurement.measurements[index].value
-        obj["name"] = multipleMeasurement.measurements[index].at;
+        obj["name"] = multipleMeasurement.measurements[index].at; 
       })
       formatedData.push(obj);
     }
