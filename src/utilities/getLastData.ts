@@ -1,5 +1,4 @@
-import { MultipleMeasurement } from '../Features/Metrics/reducer'
-
+import { MultipleMeasurement } from '../Features/Metrics/model'
 
 export default function getLastData(getMultipleMeasurements:MultipleMeasurement[], selectedMetrics:string[]){
     let data = getMultipleMeasurements;

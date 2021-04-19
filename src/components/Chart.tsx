@@ -11,7 +11,7 @@ import {
 } from "recharts";
 import moment from 'moment';
 import { IState } from '../store';
-import { getSelectedMetricsData } from '../Features/Metrics/Metrics';
+import { getSelectedMetricsData } from '../Features/Metrics/selector';
 import measurementDataToChartFormat from '../utilities/formatData';
 import LinearProgress  from '@material-ui/core/LinearProgress';
 
