@@ -3,8 +3,11 @@ import { useSelector } from 'react-redux';
 import CustomizedHook from '../../components/AutoComplete';
 import MetricCard from '../../components/MetricCard';
 import getLastData from '../../utilities/getLastData';
-import { GetMetricList, GetMultipleMeasurements, GetNewMeasurements } from '../../services/metricServices';
+import { useMetricList, useMultipleMeasurements, useNewMeasurements } from '../../services/metricServices';
 import { getMetricsData, getMultipleMeasurements, getSelectedMetricsData } from './selector';
+
+
+
 
 export default () => {
   return (
@@ -13,9 +16,9 @@ export default () => {
 };
 
 const Metrics = () => {
-  GetMetricList()
-  GetMultipleMeasurements();
-  GetNewMeasurements();
+  useMetricList()
+  useMultipleMeasurements();
+  useNewMeasurements();
   const { metrics } = useSelector(getMetricsData);
   const { multipleMeasurements } = useSelector(getMultipleMeasurements);
   const { selectedMetrics } = useSelector(getSelectedMetricsData);

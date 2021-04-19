@@ -8,9 +8,9 @@ import { getSelectedMetricsData } from '../Features/Metrics/selector';
 const beforeTime = Date.now()
 const afterTime = beforeTime - 30 * 60 * 1000
 
-export const GetMetricList = () => {
+export const useMetricList = () => {
     const dispatch = useDispatch();
-    let [result] = useQuery({
+    let [ result ] = useQuery({
       query: getMetricsQuery
     });
     const { fetching, data, error } = result;
@@ -26,12 +26,12 @@ export const GetMetricList = () => {
       if (fetching) {
         return;
       }
-      const {getMetrics} = data;
+      const { getMetrics } = data;
       dispatch(actions.metricDataRecevied(getMetrics));
     }, [dispatch, data, error, fetching]);
   };
   
-export const GetMultipleMeasurements = () => {
+export const useMultipleMeasurements = () => {
     const { selectedMetrics } = useSelector(getSelectedMetricsData);
     let input = selectedMetrics.map((item: string) => {
       return {
@@ -66,8 +66,8 @@ export const GetMultipleMeasurements = () => {
     }, [dispatch, data, error, fetching]);
   };
   
-export const GetNewMeasurements = () => {
-    const [result] = useSubscription({ query: getNewMeasurement, variables:{} });
+export const useNewMeasurements = () => {
+    const [ result ] = useSubscription({ query: getNewMeasurement, variables:{} });
     const { fetching, data, error } = result;
     const dispatch = useDispatch()
   
@@ -80,10 +80,9 @@ export const GetNewMeasurements = () => {
         return;
       }
       if (fetching) {
+        dispatch(actions.newMeasurementDataRecevied(data.newMeasurement))
         return;
       }
-     
-      dispatch(actions.newMeasurementDataRecevied(data.newMeasurement));
     }, [dispatch, data, error, fetching]);
   }
   
